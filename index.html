@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misi Batu, Kertas dan Gunting – Adab Makan & Minum</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Fredoka & Quicksand for cute readable typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- MediaPipe Hands & Camera Utils -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandBlue: '#38bdf8',
+                        brandYellow: '#facc15',
+                        brandGreen: '#4ade80',
+                        brandOrange: '#fb923c',
+                        brandPurple: '#a855f7',
+                        bgCream: '#fffbeb',
+                    },
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'sans-serif'],
+                        quicksand: ['Quicksand', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Fredoka', 'Quicksand', sans-serif;
+            background-color: #f0fdf4;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 24px 24px;
+            user-select: none;
+        }
+        .bubbly-btn {
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+        .bubbly-btn:active {
+            transform: translateY(4px);
+            box-shadow: none !important;
+        }
+        .pulse-slow {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4ade80;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between overflow-x-hidden">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="bg-white border-b-4 border-yellow-400 shadow-md py-3 px-4 sticky top-0 z-30">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <span class="text-3xl">🍉</span>
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold text-sky-600 leading-tight">MISI BATU, KERTAS & GUNTING</h1>
+                    <p class="text-xs font-semibold text-emerald-600">Pendidikan Islam Tahun 2 (Adab Makan & Minum)</p>
+                </div>
+            </div>
+            <div id="header-status" class="hidden flex items-center gap-3">
+                <div class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full font-bold text-sm border-2 border-amber-300">
+                    <i class="fa-solid font-bold text-amber-500 fa-star mr-1"></i> <span id="score-display">0</span> Markah
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-4xl w-full mx-auto p-4 flex-grow flex flex-col justify-center">
+
+        <!-- SCREEN 1: HOMEPAGE -->
+        <section id="screen-home" class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-sky-300 text-center relative overflow-hidden my-auto">
+            <!-- Background Decorative Icons -->
+            <div class="absolute -top-6 -left-6 text-6xl opacity-20">🍚</div>
+            <div class="absolute -bottom-6 -right-6 text-6xl opacity-20">🍎</div>
+            <div class="absolute top-1/2 right-2 text-5xl opacity-15">🥛</div>
+            <div class="absolute top-10 left-4 text-5xl opacity-15">🍌</div>
+
+            <div class="relative z-10">
+                <div class="inline-block bg-emerald-100 text-emerald-700 px-4 py-1.5 rounded-full font-bold text-sm mb-4 border-2 border-emerald-300">
+                    <i class="fa-solid fa-gamepad mr-1"></i> Kuiz Interaktif Kamera & Sentuhan
+                </div>
+                <h2 class="text-3xl md:text-5xl font-black text-sky-600 mb-2 tracking-wide">
+                    MISI BATU, KERTAS DAN GUNTING!
+                </h2>
+                <p class="text-lg md:text-xl font-bold text-amber-600 mb-6">
+                    JOM UJI MINDA: ADAB MAKAN DAN MINUM
+                </p>
+
+                <!-- Mascot & Banner Graphics -->
+                <div class="flex justify-center items-center gap-4 mb-6">
+                    <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4 flex flex-col items-center w-28 md:w-36">
+                        <span class="text-4xl md:text-5xl mb-1">✊</span>
+                        <span class="font-bold text-sky-700 text-sm">BATU = A</span>
+                    </div>
+                    <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4 flex flex-col items-center w-28 md:w-36">
+                        <span class="text-4xl md:text-5xl mb-1">✋</span>
+                        <span class="font-bold text-amber-700 text-sm">KERTAS = B</span>
+                    </div>
+                    <div class="bg-pink-50 border-2 border-pink-200 rounded-2xl p-4 flex flex-col items-center w-28 md:w-36">
+                        <span class="text-4xl md:text-5xl mb-1">✌️</span>
+                        <span class="font-bold text-pink-700 text-sm">GUNTING = C</span>
+                    </div>
+                </div>
+
+                <p class="text-slate-600 max-w-lg mx-auto mb-8 text-base md:text-lg">
+                    Kuasai kepentingan mengamalkan adab makan dan minum melalui cabaran pengecaman gaya tangan kamera yang menyeronokkan!
+                </p>
+
+                <!-- Navigation Buttons -->
+                <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-md mx-auto">
+                    <button onclick="goToCameraSetup()" class="bubbly-btn bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xl py-4 px-8 rounded-2xl shadow-[0_6px_0_#15803d] flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-play text-2xl"></i> MULA PERMAINAN
+                    </button>
+                    <button onclick="openModal('modal-instructions')" class="bubbly-btn bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold text-xl py-4 px-6 rounded-2xl shadow-[0_6px_0_#b45309] flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-book-open"></i> CARA BERMAIN
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 2: CAMERA SETUP -->
+        <section id="screen-setup" class="hidden bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-amber-300 text-center my-auto">
+            <h2 class="text-2xl md:text-3xl font-black text-amber-600 mb-2">PERSEDIAAN KAMERA & KAWALAN</h2>
+            <p class="text-slate-600 text-sm md:text-base mb-6">
+                Sila benarkan akses kamera untuk menjawab menggunakan gaya tangan. Jika tiada kamera, anda boleh terus bermain dengan menekan butang gaya tangan.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center mb-6">
+                <!-- Preview Camera Box -->
+                <div class="relative bg-slate-900 rounded-2xl overflow-hidden aspect-video border-4 border-slate-700 flex flex-col items-center justify-center shadow-inner">
+                    <video id="setup-webcam" class="w-full h-full object-cover transform -scale-x-100" autoplay playsinline muted></video>
+                    <canvas id="setup-canvas" class="absolute inset-0 w-full h-full transform -scale-x-100 pointer-events-none"></canvas>
+                    
+                    <div id="setup-camera-placeholder" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-800 text-white p-4">
+                        <i class="fa-solid fa-video-slash text-4xl mb-2 text-slate-400"></i>
+                        <p class="text-sm text-slate-300 text-center font-medium">Kamera belum diaktifkan.</p>
+                        <button onclick="initCamera('setup')" class="mt-3 bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold py-2 px-4 rounded-xl shadow">
+                            <i class="fa-solid fa-camera mr-1"></i> Aktifkan Kamera
+                        </button>
+                    </div>
+
+                    <!-- Live Detection Overlay Badge -->
+                    <div id="setup-gesture-badge" class="hidden absolute top-3 left-3 bg-black/70 backdrop-blur-md text-yellow-300 text-xs font-bold px-3 py-1.5 rounded-full border border-yellow-400 flex items-center gap-2">
+                        <span>Dikesan:</span> <span id="setup-detected-name" class="text-white text-sm">Tiada</span>
+                    </div>
+                </div>
+
+                <!-- Hand Gesture Reminders -->
+                <div class="bg-amber-50 rounded-2xl p-4 border-2 border-amber-200 text-left">
+                    <h3 class="font-bold text-amber-900 text-lg mb-3 flex items-center">
+                        <i class="fa-solid fa-hand-sparkles mr-2 text-amber-600"></i> Panduan Gaya Tangan:
+                    </h3>
+                    <ul class="space-y-3 text-sm font-semibold">
+                        <li class="flex items-center gap-3 bg-white p-2 rounded-xl shadow-sm border border-slate-100">
+                            <span class="text-3xl">✊</span>
+                            <div>
+                                <span class="text-sky-600 font-bold">BATU (Genggam)</span>
+                                <p class="text-xs text-slate-500">Mewakili Jawapan A</p>
+                            </div>
+                        </li>
+                        <li class="flex items-center gap-3 bg-white p-2 rounded-xl shadow-sm border border-slate-100">
+                            <span class="text-3xl">✋</span>
+                            <div>
+                                <span class="text-amber-600 font-bold">KERTAS (Buka Tapak)</span>
+                                <p class="text-xs text-slate-500">Mewakili Jawapan B</p>
+                            </div>
+                        </li>
+                        <li class="flex items-center gap-3 bg-white p-2 rounded-xl shadow-sm border border-slate-100">
+                            <span class="text-3xl">✌️</span>
+                            <div>
+                                <span class="text-pink-600 font-bold">GUNTING (2 Jari V)</span>
+                                <p class="text-xs text-slate-500">Mewakili Jawapan C</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button onclick="startQuiz()" class="bubbly-btn bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xl py-3.5 px-8 rounded-2xl shadow-[0_5px_0_#15803d]">
+                    <i class="fa-solid fa-circle-play mr-2"></i> MULA CABARAN
+                </button>
+                <button onclick="showScreen('screen-home')" class="bubbly-btn bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-lg py-3.5 px-6 rounded-2xl shadow-[0_4px_0_#94a3b8]">
+                    Kembali
+                </button>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: QUIZ DISPLAY -->
+        <section id="screen-quiz" class="hidden flex flex-col gap-4 my-auto">
+            <!-- Top Status Dashboard -->
+            <div class="bg-white rounded-2xl p-4 shadow-md border-2 border-slate-200 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                    <span id="question-number-badge" class="bg-sky-500 text-white font-black px-3 py-1 rounded-xl text-sm md:text-base">
+                        SOALAN 1/10
+                    </span>
+                    <div class="w-28 md:w-44 bg-slate-200 h-3 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="bg-emerald-500 h-full w-10 transition-all duration-300"></div>
+                    </div>
+                </div>
+
+                <!-- Timer Display -->
+                <div class="flex items-center gap-2 bg-rose-50 border border-rose-200 px-3 py-1 rounded-xl">
+                    <i class="fa-solid fa-stopwatch text-rose-500 text-lg"></i>
+                    <span id="timer-text" class="font-black text-rose-600 text-lg md:text-xl">20s</span>
+                </div>
+            </div>
+
+            <!-- Main Question & Options Container -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
+                
+                <!-- Question & Options Block (Left / Top) -->
+                <div class="md:col-span-7 bg-white rounded-3xl p-5 md:p-6 shadow-xl border-4 border-sky-200 flex flex-col justify-between min-h-[360px]">
+                    <div>
+                        <h3 id="question-text" class="text-lg md:text-xl font-bold text-slate-800 leading-snug mb-6">
+                            Soalan akan dipaparkan di sini...
+                        </h3>
+
+                        <!-- 3 Choice Options -->
+                        <div class="space-y-3" id="options-container">
+                            <button id="opt-A" onclick="selectAnswer('A')" class="option-card w-full text-left p-3.5 rounded-2xl border-3 border-sky-300 bg-sky-50/50 hover:bg-sky-100 font-semibold transition-all flex items-center gap-3">
+                                <span class="bg-sky-500 text-white w-9 h-9 rounded-xl flex items-center justify-center font-bold text-lg shrink-0 shadow">A</span>
+                                <div class="flex-grow">
+                                    <span class="text-xs text-sky-700 font-bold block mb-0.5">✊ BATU</span>
+                                    <span id="opt-text-A" class="text-slate-800 text-sm md:text-base">Pilihan A</span>
+                                </div>
+                            </button>
+
+                            <button id="opt-B" onclick="selectAnswer('B')" class="option-card w-full text-left p-3.5 rounded-2xl border-3 border-amber-300 bg-amber-50/50 hover:bg-amber-100 font-semibold transition-all flex items-center gap-3">
+                                <span class="bg-amber-500 text-white w-9 h-9 rounded-xl flex items-center justify-center font-bold text-lg shrink-0 shadow">B</span>
+                                <div class="flex-grow">
+                                    <span class="text-xs text-amber-700 font-bold block mb-0.5">✋ KERTAS</span>
+                                    <span id="opt-text-B" class="text-slate-800 text-sm md:text-base">Pilihan B</span>
+                                </div>
+                            </button>
+
+                            <button id="opt-C" onclick="selectAnswer('C')" class="option-card w-full text-left p-3.5 rounded-2xl border-3 border-pink-300 bg-pink-50/50 hover:bg-pink-100 font-semibold transition-all flex items-center gap-3">
+                                <span class="bg-pink-500 text-white w-9 h-9 rounded-xl flex items-center justify-center font-bold text-lg shrink-0 shadow">C</span>
+                                <div class="flex-grow">
+                                    <span class="text-xs text-pink-700 font-bold block mb-0.5">✌️ GUNTING</span>
+                                    <span id="opt-text-C" class="text-slate-800 text-sm md:text-base">Pilihan C</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Feedback Overlay Area inside card -->
+                    <div id="quiz-feedback-box" class="hidden mt-4 p-4 rounded-2xl border-2 text-sm leading-relaxed">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span id="feedback-icon" class="text-2xl">🎉</span>
+                            <h4 id="feedback-title" class="font-bold text-base">TAHNIAH! JAWAPAN BETUL!</h4>
+                        </div>
+                        <p id="feedback-desc" class="text-slate-700">Penjelasan jawapan di sini.</p>
+                        <button id="btn-next-question" onclick="nextQuestion()" class="mt-3 w-full bubbly-btn bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2.5 px-4 rounded-xl shadow-[0_4px_0_#15803d] flex items-center justify-center gap-2">
+                            SOALAN SETERUSNYA <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Camera / Control Box (Right / Bottom) -->
+                <div class="md:col-span-5 bg-white rounded-3xl p-4 shadow-xl border-4 border-amber-200 flex flex-col items-center">
+                    <div class="w-full text-center mb-2">
+                        <span id="detection-status-text" class="inline-block bg-amber-100 text-amber-900 font-bold text-xs px-3 py-1 rounded-full border border-amber-300 animate-pulse">
+                            📷 TUNJUKKAN GAYA TANGAN KAMU!
+                        </span>
+                    </div>
+
+                    <!-- Camera Feed Box -->
+                    <div class="relative w-full aspect-video bg-slate-900 rounded-2xl overflow-hidden border-2 border-slate-700 shadow-inner flex items-center justify-center">
+                        <video id="quiz-webcam" class="w-full h-full object-cover transform -scale-x-100" autoplay playsinline muted></video>
+                        <canvas id="quiz-canvas" class="absolute inset-0 w-full h-full transform -scale-x-100 pointer-events-none"></canvas>
+                        
+                        <!-- Camera Off / Fallback Info Overlay -->
+                        <div id="quiz-cam-fallback" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-slate-800/90 text-white p-3 text-center">
+                            <i class="fa-solid fa-hand text-3xl text-amber-400 mb-1"></i>
+                            <p class="text-xs font-semibold text-slate-200">Kamera tidak aktif.</p>
+                            <p class="text-[11px] text-slate-400">Tekan butang di bawah untuk menjawab!</p>
+                        </div>
+
+                        <!-- Detected Hand Badge -->
+                        <div id="quiz-detected-badge" class="absolute bottom-2 left-2 right-2 bg-black/75 backdrop-blur-sm text-white px-3 py-1.5 rounded-xl text-center text-xs font-bold border border-white/20 flex items-center justify-around">
+                            <span class="text-slate-300">Dikesan:</span>
+                            <span id="quiz-detected-text" class="text-yellow-300 font-extrabold text-sm">Mencari tangan...</span>
+                        </div>
+                    </div>
+
+                    <!-- Gesture Cheat Sheet & Interactive Touch Buttons -->
+                    <div class="w-full mt-3 grid grid-cols-3 gap-2">
+                        <button onclick="selectAnswer('A')" class="bubbly-btn bg-sky-100 hover:bg-sky-200 border-2 border-sky-400 rounded-xl p-2 text-center flex flex-col items-center">
+                            <span class="text-2xl">✊</span>
+                            <span class="text-[11px] font-black text-sky-800">BATU = A</span>
+                        </button>
+                        <button onclick="selectAnswer('B')" class="bubbly-btn bg-amber-100 hover:bg-amber-200 border-2 border-amber-400 rounded-xl p-2 text-center flex flex-col items-center">
+                            <span class="text-2xl">✋</span>
+                            <span class="text-[11px] font-black text-amber-800">KERTAS = B</span>
+                        </button>
+                        <button onclick="selectAnswer('C')" class="bubbly-btn bg-pink-100 hover:bg-pink-200 border-2 border-pink-400 rounded-xl p-2 text-center flex flex-col items-center">
+                            <span class="text-2xl">✌️</span>
+                            <span class="text-[11px] font-black text-pink-800">GUNTING = C</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SCREEN 4: RESULTS -->
+        <section id="screen-results" class="hidden bg-white rounded-3xl p-6 md:p-8 shadow-2xl border-4 border-yellow-400 text-center my-auto relative overflow-hidden">
+            <div class="relative z-10">
+                <div class="text-5xl md:text-6xl mb-2 animate-bounce">🏆</div>
+                <h2 class="text-2xl md:text-4xl font-black text-sky-600 mb-1">
+                    TAHNIAH, KAMU TELAH MENYELESAIKAN MISI!
+                </h2>
+                <p class="text-slate-600 text-sm md:text-base font-semibold mb-6">
+                    Berikut ialah keputusan pencapaian anda dalam Adab Makan dan Minum:
+                </p>
+
+                <!-- Score Board Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto mb-6">
+                    <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3">
+                        <span class="text-xs text-sky-700 font-bold block uppercase">Jumlah Markah</span>
+                        <span id="final-score" class="text-3xl font-black text-sky-600">0/100</span>
+                    </div>
+                    <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3">
+                        <span class="text-xs text-emerald-700 font-bold block uppercase">Jawapan Betul</span>
+                        <span id="final-correct" class="text-3xl font-black text-emerald-600">0</span>
+                    </div>
+                    <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3">
+                        <span class="text-xs text-rose-700 font-bold block uppercase">Jawapan Salah</span>
+                        <span id="final-wrong" class="text-3xl font-black text-rose-600">0</span>
+                    </div>
+                    <div class="bg-purple-50 border-2 border-purple-200 rounded-2xl p-3">
+                        <span class="text-xs text-purple-700 font-bold block uppercase">Peratus</span>
+                        <span id="final-percent" class="text-3xl font-black text-purple-600">0%</span>
+                    </div>
+                </div>
+
+                <!-- Motivation Banner -->
+                <div id="motivation-box" class="bg-gradient-to-r from-amber-100 to-yellow-100 border-2 border-amber-300 rounded-2xl p-4 max-w-xl mx-auto mb-8 shadow-sm">
+                    <h3 id="motivation-title" class="text-xl font-extrabold text-amber-900 mb-1">CEMERLANG!</h3>
+                    <p id="motivation-desc" class="text-amber-800 text-sm font-semibold">Kamu sangat hebat memahami adab makan dan minum!</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row justify-center gap-3 max-w-lg mx-auto">
+                    <button onclick="resetAndRestart()" class="bubbly-btn bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold py-3.5 px-6 rounded-2xl shadow-[0_5px_0_#15803d] flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-rotate-right"></i> MAIN SEMULA
+                    </button>
+                    <button onclick="openModal('modal-review')" class="bubbly-btn bg-sky-500 hover:bg-sky-600 text-white font-extrabold py-3.5 px-6 rounded-2xl shadow-[0_5px_0_#0284c7] flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-list-check"></i> LIHAT SEMULA JAWAPAN
+                    </button>
+                    <button onclick="showScreen('screen-home')" class="bubbly-btn bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold py-3.5 px-6 rounded-2xl shadow-[0_5px_0_#b45309] flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-house"></i> MENU UTAMA
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white/80 backdrop-blur-sm border-t border-slate-200 py-3 text-center text-xs text-slate-500">
+        Pendidikan Islam Tahun 2 • Bidang Adab • Misi Batu, Kertas dan Gunting Interaktif
+    </footer>
+
+    <!-- MODAL: INSTRUCTIONS -->
+    <div id="modal-instructions" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl border-4 border-amber-300 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('modal-instructions')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-2xl font-bold">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-2xl font-black text-amber-600 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-book-open"></i> Cara Bermain
+            </h3>
+            <div class="space-y-4 text-slate-700 text-sm font-medium">
+                <p class="bg-amber-50 p-3 rounded-xl border border-amber-200">
+                    <strong>Arahan:</strong> Baca soalan dan pilihan jawapan dengan teliti. Kemudian, tunjukkan gaya tangan yang sepadan dengan jawapan pilihan kamu di hadapan kamera!
+                </p>
+
+                <div class="grid grid-cols-3 gap-3 text-center">
+                    <div class="p-3 bg-sky-50 rounded-2xl border border-sky-200">
+                        <div class="text-4xl mb-1">✊</div>
+                        <div class="font-extrabold text-sky-700">BATU</div>
+                        <div class="text-xs text-slate-500">Pilihan A</div>
+                    </div>
+                    <div class="p-3 bg-amber-50 rounded-2xl border border-amber-200">
+                        <div class="text-4xl mb-1">✋</div>
+                        <div class="font-extrabold text-amber-700">KERTAS</div>
+                        <div class="text-xs text-slate-500">Pilihan B</div>
+                    </div>
+                    <div class="p-3 bg-pink-50 rounded-2xl border border-pink-200">
+                        <div class="text-4xl mb-1">✌️</div>
+                        <div class="font-extrabold text-pink-700">GUNTING</div>
+                        <div class="text-xs text-slate-500">Pilihan C</div>
+                    </div>
+                </div>
+
+                <ul class="list-disc pl-5 space-y-1.5 text-xs text-slate-600">
+                    <li>Setiap soalan diberikan masa <strong>20 saat</strong>.</li>
+                    <li>Sistem akan mengesan dan meyakinkan gaya tangan selama 1.5 saat sebelum mengunci jawapan.</li>
+                    <li>Jika kamera tiada atau terganggu, anda boleh menekan butang kad pilihan jawapan secara terus.</li>
+                    <li>Setiap jawapan betul memberikan <strong>10 markah</strong> (Jumlah: 100 markah).</li>
+                </ul>
+            </div>
+            <button onclick="closeModal('modal-instructions')" class="mt-6 w-full bubbly-btn bg-amber-400 hover:bg-amber-500 text-amber-950 font-bold py-3 rounded-xl shadow-[0_4px_0_#b45309]">
+                Faham! Kembali
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL: REVIEW ANSWERS -->
+    <div id="modal-review" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl border-4 border-sky-300 relative max-h-[85vh] flex flex-col">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-200">
+                <h3 class="text-xl font-black text-sky-600 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check"></i> Semakan Jawapan Soalan
+                </h3>
+                <button onclick="closeModal('modal-review')" class="text-slate-400 hover:text-slate-600 text-2xl font-bold">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div id="review-list-container" class="space-y-4 my-4 overflow-y-auto pr-2 flex-grow text-sm">
+                <!-- Populated dynamically via JS -->
+            </div>
+
+            <button onclick="closeModal('modal-review')" class="w-full bubbly-btn bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-xl shadow-[0_4px_0_#0284c7]">
+                Tutup Semakan
+            </button>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* ==========================================================================
+           1. QUESTION BANK DATA (STRICT 10 QUESTIONS AS SPECIFIED)
+           ========================================================================== */
+        const QUESTION_BANK = [
+            {
+                id: 1,
+                question: "Apakah kebaikan menunjukkan tingkah laku sopan ketika makan?",
+                options: {
+                    A: "Menjaga maruah diri dan keluarga.",
+                    B: "Mendapat makanan yang lebih banyak.",
+                    C: "Menjadi orang yang paling cepat makan."
+                },
+                correct: "A",
+                gesture: "BATU ✊",
+                explanation: "Tingkah laku yang sopan ketika makan dapat menjaga maruah diri dan keluarga."
+            },
+            {
+                id: 2,
+                question: "Mengapakah kita perlu mengamalkan adab ketika makan?",
+                options: {
+                    A: "Supaya dapat makan dengan gelojoh.",
+                    B: "Supaya terhindar daripada perbuatan buruk.",
+                    C: "Supaya dapat mengambil makanan orang lain."
+                },
+                correct: "B",
+                gesture: "KERTAS ✋",
+                explanation: "Adab makan mengajar kita menjauhi perbuatan buruk seperti gelojoh dan tidak sopan."
+            },
+            {
+                id: 3,
+                question: "Mengapakah kita perlu menjaga kebersihan makanan dan minuman?",
+                options: {
+                    A: "Supaya makanan tahan lebih lama tanpa perlu disimpan dengan betul.",
+                    B: "Supaya dapat makan dengan lebih banyak.",
+                    C: "Supaya terhindar daripada jangkitan kuman dan penyakit."
+                },
+                correct: "C",
+                gesture: "GUNTING ✌️",
+                explanation: "Makanan dan minuman yang bersih dapat mengurangkan risiko kuman masuk ke dalam badan dan menyebabkan penyakit."
+            },
+            {
+                id: 4,
+                question: "Apakah kesan apabila kita sentiasa menjaga kebersihan dan mengamalkan adab makan dan minum?",
+                options: {
+                    A: "Kehidupan menjadi lebih berkualiti.",
+                    B: "Kita tidak perlu menjaga kesihatan.",
+                    C: "Kita boleh makan tanpa mengikut aturan."
+                },
+                correct: "A",
+                gesture: "BATU ✊",
+                explanation: "Amalan menjaga kebersihan dan adab makan membantu memelihara kesihatan serta menjadikan kehidupan lebih baik."
+            },
+            {
+                id: 5,
+                question: "Upin berkongsi makanan dengan rakannya. Apakah kebaikan perbuatan Upin ?",
+                options: {
+                    A: "Menyebabkan rakannya berasa sedih.",
+                    B: "Mengeratkan hubungan sesama rakan.",
+                    C: "Menjadikan rakannya tidak suka berkongsi."
+                },
+                correct: "B",
+                gesture: "KERTAS ✋",
+                explanation: "Berkongsi makanan dapat memupuk kasih sayang dan mengeratkan hubungan sesama rakan."
+            },
+            {
+                id: 6,
+                question: "Apakah kesan apabila semua orang mengamalkan adab makan dan saling menghormati?",
+                options: {
+                    A: "Masyarakat sering bergaduh.",
+                    B: "Hubungan masyarakat semakin renggang.",
+                    C: "Masyarakat hidup aman dan damai."
+                },
+                correct: "C",
+                gesture: "GUNTING ✌️",
+                explanation: "Sikap saling menghormati dapat mengelakkan perselisihan faham dan mewujudkan masyarakat yang harmoni."
+            },
+            {
+                id: 7,
+                question: "Apakah kebaikan membaca doa sebelum makan?",
+                options: {
+                    A: "Mendapat keberkatan daripada Allah SWT.",
+                    B: "Mendapat makanan yang lebih banyak.",
+                    C: "Dapat menghabiskan makanan dengan cepat."
+                },
+                correct: "A",
+                gesture: "BATU ✊",
+                explanation: "Membaca doa sebelum makan menunjukkan kita mengingati Allah SWT dan memohon keberkatan daripada-Nya."
+            },
+            {
+                id: 8,
+                question: "Ipin mengambil makanan mengikut keperluannya dan menghabiskan makanan tersebut. Apakah sikap yang ditunjukkan oleh Ipin?",
+                options: {
+                    A: "Suka memilih makanan.",
+                    B: "Menghargai nikmat makanan daripada Allah SWT.",
+                    C: "Suka mengambil makanan orang lain."
+                },
+                correct: "B",
+                gesture: "KERTAS ✋",
+                explanation: "Mengambil makanan mengikut keperluan dan tidak membazir menunjukkan kita menghargai rezeki daripada Allah SWT."
+            },
+            {
+                id: 9,
+                question: "Upin makan dengan sopan, tidak berebut makanan dan menghormati orang lain. Apakah kebaikan amalan Upin?",
+                options: {
+                    A: "Upin dapat makan dengan cepat.",
+                    B: "Upin mendapat makanan yang lebih banyak.",
+                    C: "Upin menjadi seorang yang berdisiplin."
+                },
+                correct: "C",
+                gesture: "GUNTING ✌️",
+                explanation: "Mengamalkan adab makan dan minum dapat membentuk sikap berdisiplin dalam diri."
+            },
+            {
+                id: 10,
+                question: "Antara berikut, yang manakah menunjukkan kepentingan mengamalkan adab makan dan minum?",
+                options: {
+                    A: "Menjaga maruah diri, memelihara kesihatan, mengeratkan hubungan dan bersyukur kepada Allah SWT.",
+                    B: "Makan dengan cepat, berebut makanan dan membazir.",
+                    C: "Mementingkan diri sendiri dan tidak menghormati orang lain."
+                },
+                correct: "A",
+                gesture: "BATU ✊",
+                explanation: "Mengamalkan adab makan dan minum membawa kebaikan kepada diri, kesihatan, hubungan sesama manusia dan hubungan dengan Allah SWT."
+            }
+        ];
+
+        /* ==========================================================================
+           2. GLOBAL GAME STATE VARIABLES
+           ========================================================================== */
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timerInterval = null;
+        let timeLeft = 20;
+        let isAnswerLocked = false;
+        let userAnswers = [];
+
+        // Camera & MediaPipe variables
+        let mediaStream = null;
+        let handsDetector = null;
+        let cameraUtils = null;
+        let activeScreen = 'screen-home';
+        let detectedGestureCandidate = null;
+        let gestureHoldCounter = 0;
+        const HOLD_REQUIRED = 5;
+
+        /* ==========================================================================
+           3. SOUND EFFECTS GENERATOR (WEB AUDIO API)
+           ========================================================================== */
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new AudioContext();
+            }
+        }
+
+        function playSound(type) {
+            try {
+                initAudio();
+                if (!audioCtx) return;
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'correct') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.setValueAtTime(659.25, now + 0.1);
+                    osc.frequency.setValueAtTime(783.99, now + 0.2);
+                    osc.frequency.setValueAtTime(1046.50, now + 0.3);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+                    osc.start(now);
+                    osc.stop(now + 0.6);
+                } else if (type === 'wrong') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.setValueAtTime(180, now + 0.15);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                } else if (type === 'detect') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(880, now);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                    osc.start(now);
+                    osc.stop(now + 0.1);
+                }
+            } catch (e) {
+                console.log("Audio playback muted or unpermitted.", e);
+            }
+        }
+
+        /* ==========================================================================
+           4. NAVIGATION & SCREEN MANAGEMENT
+           ========================================================================== */
+        function showScreen(screenId) {
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            const target = document.getElementById(screenId);
+            if (target) {
+                target.classList.remove('hidden');
+                activeScreen = screenId;
+            }
+
+            const headerStatus = document.getElementById('header-status');
+            if (screenId === 'screen-quiz') {
+                headerStatus.classList.remove('hidden');
+            } else if (screenId === 'screen-home' || screenId === 'screen-setup') {
+                headerStatus.classList.add('hidden');
+            }
+        }
+
+        function goToCameraSetup() {
+            showScreen('screen-setup');
+            initCamera('setup');
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId)?.classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId)?.classList.add('hidden');
+        }
+
+        /* ==========================================================================
+           5. MEDIAPIPE HAND GESTURE RECOGNITION & FIXED CAMERA FEED
+           ========================================================================== */
+        async function initCamera(targetMode = 'setup') {
+            const videoId = targetMode === 'setup' ? 'setup-webcam' : 'quiz-webcam';
+            const videoElem = document.getElementById(videoId);
+
+            if (!videoElem) return;
+
+            // Hide Camera Fallbacks
+            document.getElementById('setup-camera-placeholder')?.classList.add('hidden');
+            document.getElementById('quiz-cam-fallback')?.classList.add('hidden');
+
+            try {
+                // Reuse existing camera stream or request new one
+                if (!mediaStream || !mediaStream.active) {
+                    mediaStream = await navigator.mediaDevices.getUserMedia({
+                        video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: 'user' }
+                    });
+                }
+
+                // Attach stream to current active video element
+                videoElem.srcObject = mediaStream;
+                await videoElem.play();
+
+                // Setup MediaPipe Hands if not initialized
+                if (!handsDetector && typeof Hands !== 'undefined') {
+                    handsDetector = new Hands({
+                        locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+                    });
+
+                    handsDetector.setOptions({
+                        maxNumHands: 1,
+                        modelComplexity: 1,
+                        minDetectionConfidence: 0.6,
+                        minTrackingConfidence: 0.6
+                    });
+
+                    handsDetector.onResults(onHandResults);
+                }
+
+                // Start detection loop using requestAnimationFrame for continuous reliability across screen changes
+                startDetectionLoop();
+
+            } catch (err) {
+                console.warn("Kamera tidak dapat diakses:", err);
+                showCameraFallback();
+            }
+        }
+
+        let isLoopRunning = false;
+        function startDetectionLoop() {
+            if (isLoopRunning) return;
+            isLoopRunning = true;
+
+            async function renderFrame() {
+                const videoElem = activeScreen === 'screen-setup' ? 
+                    document.getElementById('setup-webcam') : document.getElementById('quiz-webcam');
+
+                if (videoElem && videoElem.readyState >= 2 && handsDetector) {
+                    try {
+                        await handsDetector.send({ image: videoElem });
+                    } catch (e) {
+                        // Suppress frame send errors during rapid transitions
+                    }
+                }
+                requestAnimationFrame(renderFrame);
+            }
+            requestAnimationFrame(renderFrame);
+        }
+
+        function showCameraFallback() {
+            document.getElementById('setup-camera-placeholder')?.classList.remove('hidden');
+            document.getElementById('quiz-cam-fallback')?.classList.remove('hidden');
+        }
+
+        function onHandResults(results) {
+            const currentVideo = activeScreen === 'screen-setup' ? document.getElementById('setup-webcam') : document.getElementById('quiz-webcam');
+            const currentCanvas = activeScreen === 'screen-setup' ? document.getElementById('setup-canvas') : document.getElementById('quiz-canvas');
+            
+            if (!currentCanvas || !currentVideo) return;
+            const ctx = currentCanvas.getContext('2d');
+            ctx.clearRect(0, 0, currentCanvas.width, currentCanvas.height);
+
+            currentCanvas.width = currentVideo.videoWidth || 640;
+            currentCanvas.height = currentVideo.videoHeight || 480;
+
+            if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+                const landmarks = results.multiHandLandmarks[0];
+                drawHandKeypoints(ctx, landmarks);
+
+                const gesture = classifyGesture(landmarks);
+                updateGestureDetectionUI(gesture);
+
+                if (activeScreen === 'screen-quiz' && !isAnswerLocked && gesture) {
+                    if (gesture.choice === detectedGestureCandidate?.choice) {
+                        gestureHoldCounter++;
+                        if (gestureHoldCounter >= HOLD_REQUIRED) {
+                            playSound('detect');
+                            selectAnswer(gesture.choice);
+                            gestureHoldCounter = 0;
+                        }
+                    } else {
+                        detectedGestureCandidate = gesture;
+                        gestureHoldCounter = 1;
+                    }
+                }
+            } else {
+                updateGestureDetectionUI(null);
+                detectedGestureCandidate = null;
+                gestureHoldCounter = 0;
+            }
+        }
+
+        function drawHandKeypoints(ctx, landmarks) {
+            ctx.fillStyle = '#facc15';
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 3;
+
+            landmarks.forEach((lm) => {
+                const x = lm.x * ctx.canvas.width;
+                const y = lm.y * ctx.canvas.height;
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+        }
+
+        function classifyGesture(lm) {
+            const isIndexExtended = lm[8].y < lm[6].y;
+            const isMiddleExtended = lm[12].y < lm[10].y;
+            const isRingExtended = lm[16].y < lm[14].y;
+            const isPinkyExtended = lm[20].y < lm[18].y;
+
+            // KERTAS (Paper ✋ - Choice B)
+            if (isIndexExtended && isMiddleExtended && isRingExtended && isPinkyExtended) {
+                return { name: "KERTAS ✋", choice: "B" };
+            }
+
+            // GUNTING (Scissors ✌️ - Choice C)
+            if (isIndexExtended && isMiddleExtended && !isRingExtended && !isPinkyExtended) {
+                return { name: "GUNTING ✌️", choice: "C" };
+            }
+
+            // BATU (Rock ✊ - Choice A)
+            if (!isIndexExtended && !isMiddleExtended && !isRingExtended && !isPinkyExtended) {
+                return { name: "BATU ✊", choice: "A" };
+            }
+
+            return null;
+        }
+
+        function updateGestureDetectionUI(gesture) {
+            const setupBadge = document.getElementById('setup-gesture-badge');
+            const setupName = document.getElementById('setup-detected-name');
+            const quizBadgeText = document.getElementById('quiz-detected-text');
+
+            if (gesture) {
+                if (setupBadge) setupBadge.classList.remove('hidden');
+                if (setupName) setupName.textContent = `${gesture.name} (Jawapan ${gesture.choice})`;
+                if (quizBadgeText) quizBadgeText.textContent = `${gesture.name} -> Jawapan ${gesture.choice}`;
+            } else {
+                if (setupBadge) setupBadge.classList.add('hidden');
+                if (quizBadgeText) quizBadgeText.textContent = "Belum dikesan... Tunjukkan tangan!";
+            }
+        }
+
+
+        /* ==========================================================================
+           6. QUIZ FLOW & TIMER LOGIC
+           ========================================================================== */
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = [];
+            document.getElementById('score-display').textContent = score;
+            showScreen('screen-quiz');
+            initCamera('quiz'); // Direct stream to quiz video element
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            isAnswerLocked = false;
+            timeLeft = 20;
+            detectedGestureCandidate = null;
+            gestureHoldCounter = 0;
+
+            const qData = QUESTION_BANK[currentQuestionIndex];
+            
+            document.getElementById('question-number-badge').textContent = `SOALAN ${currentQuestionIndex + 1}/10`;
+            document.getElementById('progress-bar').style.width = `${((currentQuestionIndex + 1) / 10) * 100}%`;
+            document.getElementById('timer-text').textContent = `${timeLeft}s`;
+
+            document.getElementById('question-text').textContent = qData.question;
+            document.getElementById('opt-text-A').textContent = qData.options.A;
+            document.getElementById('opt-text-B').textContent = qData.options.B;
+            document.getElementById('opt-text-C').textContent = qData.options.C;
+
+            ['A', 'B', 'C'].forEach(opt => {
+                const btn = document.getElementById(`opt-${opt}`);
+                btn.className = getOptionDefaultClass(opt);
+                btn.disabled = false;
+            });
+
+            document.getElementById('quiz-feedback-box').classList.add('hidden');
+            document.getElementById('detection-status-text').textContent = "📷 TUNJUKKAN GAYA TANGAN KAMU!";
+
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer-text').textContent = `${timeLeft}s`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    handleTimeOut();
+                }
+            }, 1000);
+        }
+
+        function getOptionDefaultClass(opt) {
+            const base = "option-card w-full text-left p-3.5 rounded-2xl border-3 font-semibold transition-all flex items-center gap-3 ";
+            if (opt === 'A') return base + "border-sky-300 bg-sky-50/50 hover:bg-sky-100";
+            if (opt === 'B') return base + "border-amber-300 bg-amber-50/50 hover:bg-amber-100";
+            if (opt === 'C') return base + "border-pink-300 bg-pink-50/50 hover:bg-pink-100";
+        }
+
+        function selectAnswer(selectedChoice) {
+            if (isAnswerLocked) return;
+            isAnswerLocked = true;
+            clearInterval(timerInterval);
+
+            const qData = QUESTION_BANK[currentQuestionIndex];
+            const isCorrect = (selectedChoice === qData.correct);
+
+            userAnswers.push({
+                questionIndex: currentQuestionIndex,
+                userChoice: selectedChoice,
+                correctChoice: qData.correct,
+                isCorrect: isCorrect
+            });
+
+            ['A', 'B', 'C'].forEach(opt => {
+                const btn = document.getElementById(`opt-${opt}`);
+                btn.disabled = true;
+            });
+
+            const selectedBtn = document.getElementById(`opt-${selectedChoice}`);
+            const correctBtn = document.getElementById(`opt-${qData.correct}`);
+
+            if (isCorrect) {
+                score += 10;
+                document.getElementById('score-display').textContent = score;
+                selectedBtn.className = "option-card w-full text-left p-3.5 rounded-2xl border-4 border-emerald-500 bg-emerald-100 font-bold flex items-center gap-3 shadow-md";
+                playSound('correct');
+                triggerConfetti();
+                showFeedback(true, qData.explanation);
+            } else {
+                selectedBtn.className = "option-card w-full text-left p-3.5 rounded-2xl border-4 border-rose-400 bg-rose-100 font-bold flex items-center gap-3 opacity-90";
+                correctBtn.className = "option-card w-full text-left p-3.5 rounded-2xl border-4 border-emerald-500 bg-emerald-100 font-bold flex items-center gap-3 shadow-md";
+                playSound('wrong');
+                showFeedback(false, qData.explanation, qData.correct);
+            }
+        }
+
+        function handleTimeOut() {
+            if (isAnswerLocked) return;
+            isAnswerLocked = true;
+
+            const qData = QUESTION_BANK[currentQuestionIndex];
+            userAnswers.push({
+                questionIndex: currentQuestionIndex,
+                userChoice: "TIADA",
+                correctChoice: qData.correct,
+                isCorrect: false
+            });
+
+            ['A', 'B', 'C'].forEach(opt => {
+                document.getElementById(`opt-${opt}`).disabled = true;
+            });
+
+            document.getElementById(`opt-${qData.correct}`).className = "option-card w-full text-left p-3.5 rounded-2xl border-4 border-emerald-500 bg-emerald-100 font-bold flex items-center gap-3 shadow-md";
+            
+            playSound('wrong');
+            showFeedback(false, `Masa telah tamat! ${qData.explanation}`, qData.correct);
+        }
+
+        function showFeedback(isCorrect, explanation, correctOpt) {
+            const feedbackBox = document.getElementById('quiz-feedback-box');
+            const feedbackIcon = document.getElementById('feedback-icon');
+            const feedbackTitle = document.getElementById('feedback-title');
+            const feedbackDesc = document.getElementById('feedback-desc');
+
+            feedbackBox.classList.remove('hidden');
+
+            if (isCorrect) {
+                feedbackBox.className = "mt-4 p-4 rounded-2xl border-2 border-emerald-400 bg-emerald-50 text-emerald-950";
+                feedbackIcon.textContent = "🎉";
+                feedbackTitle.textContent = "TAHNIAH! JAWAPAN KAMU BETUL!";
+                feedbackDesc.textContent = explanation;
+            } else {
+                feedbackBox.className = "mt-4 p-4 rounded-2xl border-2 border-amber-400 bg-amber-50 text-amber-950";
+                feedbackIcon.textContent = "💡";
+                feedbackTitle.textContent = correctOpt ? `CUBA LAGI! JAWAPAN BETUL ADALAH (${correctOpt})` : "MASA TAMAT!";
+                feedbackDesc.textContent = explanation;
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < QUESTION_BANK.length) {
+                loadQuestion();
+            } else {
+                showResultsScreen();
+            }
+        }
+
+        /* ==========================================================================
+           7. RESULTS & MOTIVATION SYSTEM
+           ========================================================================== */
+        function showResultsScreen() {
+            showScreen('screen-results');
+
+            const correctCount = userAnswers.filter(a => a.isCorrect).length;
+            const wrongCount = QUESTION_BANK.length - correctCount;
+            const percentage = (score / 100) * 100;
+
+            document.getElementById('final-score').textContent = `${score}/100`;
+            document.getElementById('final-correct').textContent = correctCount;
+            document.getElementById('final-wrong').textContent = wrongCount;
+            document.getElementById('final-percent').textContent = `${percentage}%`;
+
+            const titleElem = document.getElementById('motivation-title');
+            const descElem = document.getElementById('motivation-desc');
+            const boxElem = document.getElementById('motivation-box');
+
+            if (score >= 90) {
+                titleElem.textContent = "🌟 CEMERLANG!";
+                descElem.textContent = "Tahniah! Kamu sangat hebat dan menguasai adab makan dan minum dengan sempurna!";
+                boxElem.className = "bg-emerald-100 border-2 border-emerald-400 rounded-2xl p-4 max-w-xl mx-auto mb-8 shadow-sm text-emerald-950";
+                triggerConfetti();
+            } else if (score >= 70) {
+                titleElem.textContent = "👍 BAGUS!";
+                descElem.textContent = "Syabas! Teruskan usaha yang baik untuk sentiasa mengamalkan adab makan dan minum!";
+                boxElem.className = "bg-sky-100 border-2 border-sky-400 rounded-2xl p-4 max-w-xl mx-auto mb-8 shadow-sm text-sky-950";
+            } else if (score >= 50) {
+                titleElem.textContent = "😊 USAHA YANG BAIK!";
+                descElem.textContent = "Teruskan belajar dan ulang suci lagi adab makan dan minum ya!";
+                boxElem.className = "bg-amber-100 border-2 border-amber-400 rounded-2xl p-4 max-w-xl mx-auto mb-8 shadow-sm text-amber-950";
+            } else {
+                titleElem.textContent = "💪 JANGAN PUTUS ASA!";
+                descElem.textContent = "Cuba lagi! Tekan butang 'Main Semula' untuk menguji minda kamu sekali lagi.";
+                boxElem.className = "bg-rose-100 border-2 border-rose-400 rounded-2xl p-4 max-w-xl mx-auto mb-8 shadow-sm text-rose-950";
+            }
+
+            populateReviewModal();
+        }
+
+        function populateReviewModal() {
+            const container = document.getElementById('review-list-container');
+            container.innerHTML = "";
+
+            QUESTION_BANK.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                const isCorrect = userAns ? userAns.isCorrect : false;
+                const chosen = userAns ? userAns.userChoice : "Tiada";
+
+                const card = document.createElement('div');
+                card.className = `p-4 rounded-2xl border-2 ${isCorrect ? 'bg-emerald-50 border-emerald-300' : 'bg-rose-50 border-rose-300'}`;
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start gap-2 mb-2">
+                        <span class="font-black text-slate-800">Soalan ${idx + 1}: ${q.question}</span>
+                        <span class="px-2.5 py-0.5 rounded-full font-bold text-xs shrink-0 ${isCorrect ? 'bg-emerald-200 text-emerald-800' : 'bg-rose-200 text-rose-800'}">
+                            ${isCorrect ? '✓ BETUL' : '✗ SALAH'}
+                        </span>
+                    </div>
+                    <div class="text-xs space-y-1 mb-2">
+                        <p><strong>Pilihan Anda:</strong> ${chosen} ${chosen !== 'Tiada' ? `- ${q.options[chosen] || ''}` : ''}</p>
+                        <p><strong>Jawapan Betul:</strong> <span class="text-emerald-700 font-bold">${q.correct} (${q.gesture}) - ${q.options[q.correct]}</span></p>
+                    </div>
+                    <p class="text-xs text-slate-600 bg-white/70 p-2 rounded-xl border border-slate-200">
+                        💡 <strong>Penjelasan:</strong> ${q.explanation}
+                    </p>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function resetAndRestart() {
+            startQuiz();
+        }
+
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
